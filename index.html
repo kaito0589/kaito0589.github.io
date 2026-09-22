@@ -6,6 +6,53 @@
 <title>季節の跡先 | 大月海人</title>
 <meta name="description" content="大月海人の作品アーカイブ。2017年から2026年までに公開した444作品を収録。">
 <style>
+.hero-image {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  display: block;
+  border-radius: 8px;
+  margin-bottom: 48px;
+}
+
+.author {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-top: 18px;
+}
+
+.profile-icon {
+  width: 110px;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.author h1 {
+  margin: 0;
+}
+
+.author .period {
+  margin-top: 12px;
+}
+
+@media (max-width: 640px) {
+  .hero-image {
+    height: 200px;
+    margin-bottom: 32px;
+  }
+
+  .profile-icon {
+    width: 80px;
+    height: 80px;
+  }
+
+  .author {
+    gap: 16px;
+  }
+}
 :root {
   --text: #1f2328;
   --muted: #6e7781;
@@ -138,10 +185,19 @@ footer {
 </head>
 <body>
 <main>
-  <header class="hero">
-    <p class="kicker">Archive / <span id="totalWritings"></span> writings</p>
-    <h1>季節の跡先</h1>
-    <p class="period">大月海人 / Since 2017.10.18</p>
+<header class="hero">
+
+  <img class="hero-image" src="assets/header.png" alt="夕暮れの街並み">
+
+  <p class="kicker">Archive / <span id="totalWritings"></span> writings</p>
+
+  <div class="author">
+    <img class="profile-icon" src="assets/icon.png" alt="大月海人">
+    <div>
+      <h1>季節の跡先</h1>
+      <p class="period">大月海人 / Since 2017.10.18</p>
+    </div>
+  </div>
     <p class="intro">
       2017年から2026年9月まではnoteで発表した文章を収録しています。その先の文章は、この場所で新たに書き継いでいます。タイトルから作品を検索できます。
     </p>
