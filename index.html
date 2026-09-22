@@ -354,12 +354,10 @@ footer {
 
   <img class="hero-image" src="assets/header.png" alt="夕暮れの街並み">
 
-  <p class="kicker">Archive / <span id="totalWritings"></span> writings</p>
-
   <div class="author">
     <div>
       <h1>季節の跡先</h1>
-      <p class="period">大月海人 / Since 2017.10.18</p>
+      <p class="period">大月海人 / SINCE 2017.10.18</p>
     </div>
   </div>
     <p class="intro">
@@ -2208,9 +2206,6 @@ const rows = [...document.querySelectorAll('#tbody tr')];
 const count = document.getElementById('count');
 const empty = document.getElementById('empty');
 
-const totalWritings = document.getElementById('totalWritings');
-
-totalWritings.textContent = rows.length;
 count.textContent = `${rows.length}作品`;
 
 function filterRows() {
