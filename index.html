@@ -11,6 +11,68 @@
 <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400&display=swap" rel="stylesheet">
 
 <style>
+.welcome {
+  margin-top: 36px;
+}
+
+.welcome-kicker {
+  margin: 0 0 12px;
+  color: var(--muted);
+  font-size: 12px;
+  letter-spacing: .14em;
+}
+
+.welcome-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 14px 8px;
+  border-top: 1px solid var(--line);
+  color: inherit;
+  text-decoration: none;
+}
+
+.welcome-link:hover .welcome-title {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.welcome-title {
+  font-size: 16px;
+}
+
+.welcome-thumb {
+  flex: 0 0 84px;
+  width: 84px;
+  height: 58px;
+}
+
+.welcome-thumb img {
+  display: block;
+  width: 84px;
+  height: 58px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+@media (max-width: 640px) {
+  .welcome {
+    margin-top: 28px;
+  }
+
+  .welcome-thumb {
+    flex-basis: 64px;
+    width: 64px;
+    height: 44px;
+  }
+
+  .welcome-thumb img {
+    width: 64px;
+    height: 44px;
+    border-radius: 5px;
+  }
+}
 .hero-image {
   width: 100%;
   height: 300px;
@@ -290,6 +352,18 @@ footer {
     <p class="intro">
       2017年から2026年9月まではnoteで発表した文章を収録しています。その先の文章は、この場所で新たに書き継いでいます。
     </p>
+<div class="welcome">
+  <p class="welcome-kicker">ABOUT / はじめに</p>
+
+  <a
+    id="welcomeLink"
+    class="welcome-link"
+    href="published/2018/2018-01-01_%E3%81%AF%E3%81%98%E3%82%81%E3%81%BE%E3%81%97%E3%81%A6%E3%80%81%E5%A4%A7%E6%9C%88%E6%B5%B7%E4%BA%BA%E3%81%A7%E3%81%99%EF%BC%81_nd1e4c2bc582a.html"
+  >
+    <span class="welcome-title">はじめまして、大月海人です！</span>
+    <span id="welcomeThumb" class="welcome-thumb"></span>
+  </a>
+</div>
   </header>
 <section id="selected" class="selected" aria-label="選書">
   <p class="section-kicker">SELECTED / 選書</p>
@@ -2197,6 +2271,40 @@ rows.forEach(tr => {
 
   thumbnailObserver.observe(tr);
 });
+// 「はじめまして、大月海人です！」の最初の画像を表示
+(async () => {
+  const link = document.getElementById('welcomeLink');
+  const thumb = document.getElementById('welcomeThumb');
+
+  if (!link || !thumb) return;
+
+  try {
+    const articleUrl = new URL(link.getAttribute('href'), location.href).href;
+
+    const response = await fetch(articleUrl);
+    const articleHtml = await response.text();
+
+    const doc = new DOMParser().parseFromString(articleHtml, 'text/html');
+    const firstImage = doc.querySelector('article img');
+
+    if (!firstImage) return;
+
+    const imageUrl = new URL(
+      firstImage.getAttribute('src'),
+      articleUrl
+    ).href;
+
+    const img = document.createElement('img');
+    img.src = imageUrl;
+    img.alt = '';
+    img.loading = 'lazy';
+
+    thumb.appendChild(img);
+
+  } catch (error) {
+    // 画像取得に失敗した場合はタイトルだけ表示
+  }
+})();
 </script>
 </body>
 </html>
