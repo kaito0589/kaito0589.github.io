@@ -224,6 +224,46 @@ footer {
     padding: 20px 18px;
   }
 }
+.thumb-head {
+  width: 110px;
+}
+
+.thumb-cell {
+  width: 110px;
+  padding: 10px 8px;
+  vertical-align: middle;
+  text-align: right;
+}
+
+.thumb-cell a {
+  display: block;
+}
+
+.thumb-cell img {
+  display: block;
+  width: 84px;
+  height: 58px;
+  margin-left: auto;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+@media (max-width: 640px) {
+  .thumb-head,
+  .thumb-cell {
+    width: 72px;
+  }
+
+  .thumb-cell {
+    padding: 8px 4px;
+  }
+
+  .thumb-cell img {
+    width: 64px;
+    height: 44px;
+    border-radius: 5px;
+  }
+}
 </style>
 </head>
 <body>
@@ -279,7 +319,7 @@ footer {
 
     <table>
       <thead>
-        <tr><th>DATE</th><th>TITLE</th></tr>
+        <tr><th>DATE</th><th>TITLE</th><th class="thumb-head"></th></tr>
       </thead>
       <tbody id="tbody">
 <tr data-title="透き通る青">
@@ -2095,6 +2135,61 @@ function filterRows() {
 }
 
 q.addEventListener('input', filterRows);
+// 各記事の最初の画像を一覧右側に表示
+const thumbnailObserver = new IntersectionObserver(entries => {
+  entries.forEach(async entry => {
+    if (!entry.isIntersecting) return;
+
+    const tr = entry.target;
+    thumbnailObserver.unobserve(tr);
+
+    const link = tr.querySelector('.title a');
+    const cell = tr.querySelector('.thumb-cell');
+
+    if (!link || !cell) return;
+
+    try {
+      const articleUrl = new URL(link.getAttribute('href'), location.href).href;
+
+      const response = await fetch(articleUrl);
+      const articleHtml = await response.text();
+
+      const doc = new DOMParser().parseFromString(articleHtml, 'text/html');
+      const firstImage = doc.querySelector('article img');
+
+      if (!firstImage) return;
+
+      const imageUrl = new URL(
+        firstImage.getAttribute('src'),
+        articleUrl
+      ).href;
+
+      const imageLink = document.createElement('a');
+      imageLink.href = link.getAttribute('href');
+
+      const img = document.createElement('img');
+      img.src = imageUrl;
+      img.alt = '';
+      img.loading = 'lazy';
+
+      imageLink.appendChild(img);
+      cell.appendChild(imageLink);
+
+    } catch (error) {
+      // 画像取得に失敗した記事は空欄のまま
+    }
+  });
+}, {
+  rootMargin: '300px'
+});
+
+rows.forEach(tr => {
+  const cell = document.createElement('td');
+  cell.className = 'thumb-cell';
+  tr.appendChild(cell);
+
+  thumbnailObserver.observe(tr);
+});
 </script>
 </body>
 </html>
