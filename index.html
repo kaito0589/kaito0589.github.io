@@ -12,14 +12,8 @@
 
 <style>
 .welcome {
-  margin-top: 36px;
-}
-
-.welcome-kicker {
-  margin: 0 0 12px;
-  color: var(--muted);
-  font-size: 12px;
-  letter-spacing: .14em;
+  margin-top: 32px;
+  width: 100%;
 }
 
 .welcome-link {
@@ -27,7 +21,9 @@
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  padding: 14px 8px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 17px 8px;
   border-top: 1px solid var(--line);
   color: inherit;
   text-decoration: none;
@@ -132,9 +128,9 @@ main {
   padding: 80px 24px 96px;
 }
 .hero {
-  padding: 28px 0 48px;
+  padding: 28px 0 28px;
   border-bottom: 1px solid var(--line);
-  margin-bottom: 36px;
+  margin-bottom: 24px;
 }
 .kicker {
   margin: 0 0 14px;
@@ -231,15 +227,21 @@ footer {
 }
 @media (max-width: 640px) {
   main { padding: 48px 18px 72px; }
-  .hero { padding-top: 12px; }
+
+  .hero {
+    padding-top: 12px;
+    padding-bottom: 24px;
+    margin-bottom: 24px;
+  }
+
   .toolbar { align-items: stretch; flex-direction: column; }
   .count { padding-left: 4px; }
   .date { width: 96px; font-size: 12px; }
   td { padding: 15px 5px; }
 }
 .selected {
-  margin: 36px 0 48px;
-  padding-bottom: 48px;
+  margin: 0 0 28px;
+  padding-bottom: 28px;
   border-bottom: 1px solid var(--line);
 }
 
@@ -285,6 +287,12 @@ footer {
 }
 
 @media (max-width: 640px) {
+  .selected {
+    margin-top: 0;
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+  }
+
   .selected-grid {
     grid-template-columns: 1fr;
   }
