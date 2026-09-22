@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>選書 | 季節の跡先</title>
+<meta name="description" content="大月海人の444作品から、4つのテーマで選んだ20作品。">
+<style>
+:root {
+  --text: #1f2328;
+  --muted: #6e7781;
+  --line: #e7e9ec;
+  --soft: #f7f8fa;
+  --max: 920px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: #fff;
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans JP",
+               "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+  line-height: 1.75;
+}
+main {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 72px 24px 96px;
+}
+.back {
+  display: inline-block;
+  margin-bottom: 48px;
+  color: var(--muted);
+  font-size: 13px;
+  text-decoration: none;
+  letter-spacing: .06em;
+}
+.back:hover { text-decoration: underline; text-underline-offset: 4px; }
+.kicker {
+  margin: 0 0 14px;
+  color: var(--muted);
+  font-size: 13px;
+  letter-spacing: .16em;
+}
+h1 {
+  margin: 0;
+  font-size: clamp(42px, 7vw, 72px);
+  font-weight: 500;
+  letter-spacing: .04em;
+  line-height: 1.12;
+}
+.intro {
+  max-width: 620px;
+  margin: 24px 0 64px;
+  font-size: 15px;
+}
+.collection {
+  scroll-margin-top: 28px;
+  padding: 46px 0 58px;
+  border-top: 1px solid var(--line);
+}
+.collection-count {
+  margin: 0 0 8px;
+  color: var(--muted);
+  font-size: 12px;
+  letter-spacing: .14em;
+}
+h2 {
+  margin: 0 0 24px;
+  font-size: clamp(24px, 4vw, 34px);
+  font-weight: 500;
+  letter-spacing: .03em;
+}
+.works {
+  border-top: 1px solid var(--line);
+}
+.work {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 18px 4px;
+  border-bottom: 1px solid var(--line);
+  color: inherit;
+  text-decoration: none;
+}
+.work:hover span:first-child {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.arrow {
+  flex: 0 0 auto;
+  color: var(--muted);
+}
+@media (max-width: 640px) {
+  main { padding: 48px 18px 72px; }
+  .back { margin-bottom: 36px; }
+  .intro { margin-bottom: 44px; }
+  .collection { padding: 36px 0 48px; }
+  .work { padding: 16px 2px; gap: 16px; }
+}
+</style>
+</head>
+<body>
+<main>
+  <a class="back" href="index.html#selected">← 季節の跡先</a>
+
+  <p class="kicker">SELECTED / 20 WRITINGS</p>
+  <h1>選書</h1>
+  <p class="intro">444作品の中から、4つのテーマで選んだ20作品を収録しています。</p>
+
+  <section class="collection" id="story">
+    <p class="collection-count">5 WRITINGS</p>
+    <h2>オリジナルストーリーコレクション</h2>
+    <div class="works">
+      <a class="work" href="published/2019/2019-04-21_%E3%83%8F%E3%83%AB%E3%82%92%E8%BF%8E%E3%81%88%E3%81%AB_nf018d0af8821.html">
+        <span>ハルを迎えに</span>
+        <span class="arrow">→</span>
+      </a>
+      <a class="work" href="published/2018/2018-11-04_%E9%9D%92%E6%98%A5%E3%81%95%E3%82%93_n773486341e51.html">
+        <span>青春さん</span>
+        <span class="arrow">→</span>
+      </a>
+      <a class="work" href="published/2020/2020-12-20_%E5%9C%A8%E3%82%8A%E3%81%97%E6%97%A5%E3%81%AE%E5%A4%A2%E6%83%B3%E5%AE%B6_na35ddd01977e.html">
+        <span>在りし日の夢想家</span>
+        <span class="arrow">→</span>
+      </a>
+      <a class="work" href="published/2024/2024-04-27_%E3%82%AB%E3%83%BC%E3%83%86%E3%83%B3%E3%82%B3%E3%83%BC%E3%83%AB_n41c11ec6fca7.html">
+        <span>カーテンコール</span>
+        <span class="arrow">→</span>
+      </a>
+      <a class="work" href="published/2025/2025-02-08_%E6%B5%B7%E6%9C%88%E3%81%9F%E3%81%A1%E3%81%AE%E3%82%B5%E3%83%BC%E3%83%81%E3%83%A9%E3%82%A4%E3%83%88_nf876bed3a68a.html">
+        <span>海月たちのサーチライト</span>
+        <span class="arrow">→</span>
+      </a>
+    </div>
+  </section>
+  <section class="collection" id="essay">
+    <p class="collection-count">5 WRITINGS</p>
+    <h2>エッセイコレクション</h2>
+    <div class="works">
+      <a class="work" href="published/2018/2018-10-15_%E3%82%82%E3%81%861%E4%BA%BA%E3%81%AE%E7%88%B6%28%E3%81%86%E3%81%BF%E3%81%84%E3%82%8DNOTE%E5%89%8D%E8%BA%AB%E3%82%A8%E3%83%83%E3%82%BB%E3%82%A4%29_ncc610bf8db99.html">
+        <span>もう一人の父</span>
+        <span class="arrow">→</span>
+      </a>
+      <a class="work" href="published/2023/2023-04-29_%E5%85%A8%E9%83%A8%E3%80%811%E5%86%8A%E3%81%AE%E3%83%8E%E3%83%BC%E3%83%88%E3%81%8B%E3%82%89%E5%A7%8B%E3%81%BE%E3%81%A3%E3%81%9F%E3%80%82_ncd582099ed72.html">
+        <span>全部、一冊のノートから始まった。</span>
+        <span class="arrow">→</span>
+      </a>
+      <a class="work" href="published/2024/2024-10-26_%E7%B5%82%E6%9C%AB%E8%AB%96%E3%81%AE%E5%82%8D%E3%82%89%E3%81%A7_n38d5e30511d3.html">
+        <span>終末論の傍らで</span>
+        <span class="arrow">→</span>
+      </a>
+      <a class="work" href="published/2024/2024-01-20_%E6%B5%AE%E9%81%8A%E3%81%99%E3%82%8B%E4%BA%BA%E7%94%9F_ne5bfbe8d59b8.html">
+        <span>浮遊する人生</span>
+        <span class="arrow">→</span>
+      </a>
+      <a class="work" href="published/2025/2025-07-06_%E3%81%8A%E3%81%8B%E3%81%88%E3%82%8A_nfdd8138cca23.html">
+        <span>おかえり</span>
+        <span class="arrow">→</span>
+      </a>
+    </div>
+  </section>
+  <section class="collection" id="comedy">
+    <p class="collection-count">5 WRITINGS</p>
+    <h2>茶番劇コレクション</h2>
+    <div class="works">
+      <a class="work" href="published/2023/2023-07-01_%E3%81%8B%E3%81%A4%E3%81%A6%E3%83%9C%E3%82%AF%E3%81%AF%E2%80%9C%E3%81%8A%E7%88%B6%E3%81%95%E3%82%93%E2%80%9D%E3%81%A7%E3%81%82%E3%82%8A%E3%80%81TOKIO%E3%81%AE%E5%9F%8E%E5%B3%B6%E5%90%9B%E3%81%A0%E3%81%A3%E3%81%9F%E3%82%89%E3%81%97%E3%81%84%E3%80%82_n3aa93a5635bc.html">
+        <span>かつてボクは“お父さん”であり、TOKIOの城島君だったらしい。</span>
+        <span class="arrow">→</span>
+      </a>
+      <a class="work" href="published/2023/2023-10-07_Shall%20we%20talk%EF%BC%9F_ndccb514bdf74.html">
+        <span>Shall we talk？</span>
+        <span class="arrow">→</span>
+      </a>
+      <a class="work" href="published/2024/2024-03-02_%E4%BA%BA%E3%82%82%E5%BC%95%E3%81%A3%E8%B6%8A%E3%81%9B%E3%81%B0%E6%B0%B4%E3%82%92%E3%81%93%E3%81%86%E3%82%80%E3%82%8B_n7bad578c41c7.html">
+        <span>人も引っ越せば水をこうむる</span>
+        <span class="arrow">→</span>
+      </a>
+      <a class="work" href="published/2024/2024-10-05_%E5%8F%B8%E4%BC%9A%E3%82%92%E3%81%97%E3%81%9F%E3%81%84%EF%BC%81_nabc5e43d1310.html">
+        <span>司会をしたい！</span>
+        <span class="arrow">→</span>
+      </a>
+      <a class="work" href="published/2024/2024-12-07_%E5%8F%B2%E4%B8%8A%E6%9C%80%E4%BD%8E%E3%81%AE%E5%8B%9D%E3%81%A1%E9%A6%AC%F0%9F%90%8E_n66f24d631f77.html">
+        <span>史上最低の勝ち馬🐎</span>
+        <span class="arrow">→</span>
+      </a>
+    </div>
+  </section>
+  <section class="collection" id="favorites">
+    <p class="collection-count">5 WRITINGS</p>
+    <h2>憧れの作品コレクション</h2>
+    <div class="works">
+      <a class="work" href="published/2024/2024-04-20_%E3%81%BB%E3%82%8D%E8%8B%A6%E3%81%8F%E3%82%82%E7%94%98%E3%81%84%E6%83%B3%E3%81%84%E5%87%BA%E3%80%8E%E3%81%86%E3%82%8B%E3%82%8F%E3%81%97%E3%81%8D%E3%81%B2%E3%81%A8%E3%80%8F_n9bb2781cbb48.html">
+        <span>ほろ苦くも甘い想い出『うるわしきひと』</span>
+        <span class="arrow">→</span>
+      </a>
+      <a class="work" href="published/2023/2023-10-14_%E3%81%A9%E3%81%93%E3%81%8B%E3%81%AB%E3%81%82%E3%82%8B%E6%97%A5%E5%B8%B8%E3%80%8E%E3%81%84%E3%81%A1%E3%81%B0%E3%82%93%E3%81%99%E3%81%8D%E3%81%AA%E8%8A%B1%E3%80%8F_n006159a4aa86.html">
+        <span>どこかにある日常『いちばんすきな花』</span>
+        <span class="arrow">→</span>
+      </a>
+      <a class="work" href="published/2024/2024-11-01_25%E5%B9%B4%E5%88%86%E3%81%AE%E3%83%9D%E3%82%B1%E3%83%A2%E3%83%B3%E6%84%9B%E3%82%92%E8%AA%9E%E3%82%89%E3%81%9B%E3%81%A6%EF%BC%81_n36e2569050a2.html">
+        <span>25年分のポケモン愛を語らせて！</span>
+        <span class="arrow">→</span>
+      </a>
+      <a class="work" href="published/2026/2026-04-20_%E6%AD%BB%E3%81%AB%E3%81%8B%E3%81%91%E3%81%AE%E3%81%93%E3%81%AE%E4%B8%96%E7%95%8C%E3%81%A7%E3%80%8EBLUE%20GIANT%E3%80%8F_n27ea074c3e42.html">
+        <span>死にかけのこの世界で『BLUE GIANT』</span>
+        <span class="arrow">→</span>
+      </a>
+      <a class="work" href="published/2026/2026-09-01_%E5%90%9B%E3%82%92%E6%84%9B%E3%81%99%E3%82%8B%E3%81%9F%E3%82%81%E3%81%AE%E7%AC%AC%E4%B8%80%E6%AD%A9%E3%80%8ESanitizer%E3%80%8F_naaed947ecd7b.html">
+        <span>君を愛するための第一歩『Sanitizer』</span>
+        <span class="arrow">→</span>
+      </a>
+    </div>
+  </section>
+</main>
+</body>
+</html>
