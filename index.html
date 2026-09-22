@@ -139,9 +139,9 @@ footer {
 <body>
 <main>
   <header class="hero">
-    <p class="kicker">Archive / 444 writings</p>
+    <p class="kicker">Archive / <span id="totalWritings"></span> writings</p>
     <h1>大月海人</h1>
-    <p class="period">2017.10.18 — 2026.09.01</p>
+    <p class="period">Since 2017.10.18</p>
     <p class="intro">
       2017年から2026年9月までは、noteで発表した文章を収録しています。その先の文章は、この場所で新たに書き継いでいます。タイトルから作品を検索できます。
     </p>
@@ -1949,6 +1949,11 @@ const q = document.getElementById('q');
 const rows = [...document.querySelectorAll('#tbody tr')];
 const count = document.getElementById('count');
 const empty = document.getElementById('empty');
+
+const totalWritings = document.getElementById('totalWritings');
+
+totalWritings.textContent = rows.length;
+count.textContent = `${rows.length}作品`;
 
 function filterRows() {
   const term = q.value.trim().toLowerCase();
