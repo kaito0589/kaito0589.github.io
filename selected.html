@@ -231,5 +231,19 @@ h2 {
   </section>
 <a class="back bottom-back" href="index.html#selected">← 季節の跡先</a>
 </main>
+
+<script>
+document.querySelectorAll('.collection').forEach(section => {
+  section.querySelectorAll('.work').forEach(link => {
+    const url = new URL(link.getAttribute('href'), location.href);
+
+    url.searchParams.set('from', 'selected');
+    url.searchParams.set('section', section.id);
+
+    link.href = url.href;
+  });
+});
+</script>
+
 </body>
 </html>

@@ -1,9 +1,30 @@
 (() => {
-  // 作品一覧から入ったときだけ表示する
   const params = new URLSearchParams(location.search);
-  if (params.get('from') !== 'archive') return;
+  const from = params.get('from');
 
   const footer = document.querySelector('.footer');
+  const footerLink = footer ? footer.querySelector('a') : null;
+
+  // 選書ページから開いた場合
+  if (from === 'selected') {
+    const section = params.get('section');
+
+    if (footerLink) {
+      footerLink.textContent = '← 選書に戻る';
+
+      footerLink.href = section
+        ? `../../selected.html#${section}`
+        : '../../selected.html';
+
+      footerLink.removeAttribute('onclick');
+    }
+
+    return;
+  }
+
+  // 作品一覧から開いた場合だけ前後ナビを表示
+  if (from !== 'archive') return;
+
   if (!footer) return;
 
   // 前後リンク用の見た目
