@@ -165,7 +165,7 @@ h1 {
   display: flex;
   align-items: center;
   gap: 14px;
-  margin: 0 0 28px;
+  margin: 0 0 12px;
 }
 .search {
   width: 100%;
@@ -184,6 +184,39 @@ h1 {
   white-space: nowrap;
   color: var(--muted);
   font-size: 14px;
+}
+.archive-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 0 4px 24px;
+}
+
+.sort-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.sort-button {
+  border: 0;
+  background: transparent;
+  padding: 4px 7px;
+  color: var(--muted);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.sort-button:hover {
+  color: var(--text);
+}
+
+.sort-button.active {
+  color: var(--text);
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 table {
   width: 100%;
@@ -244,11 +277,20 @@ footer {
     flex-direction: column;
     margin-bottom: 12px;
   }
+
+  .archive-meta {
+    margin-bottom: 18px;
+  }
+
+  .sort-button {
+    font-size: 12px;
+    padding: 4px 5px;
+  }
+
   .count { padding-left: 4px; }
   .date { width: 96px; font-size: 12px; }
   td { padding: 15px 5px; }
-}
-.selected {
+}.selected {
   margin: 0 0 28px;
   padding-bottom: 28px;
   border-bottom: 1px solid var(--line);
@@ -409,10 +451,18 @@ footer {
   </div>
 </section>
   <section id="archive" aria-label="作品一覧">
-    <div class="toolbar">
-      <input id="q" class="search" type="search" placeholder="作品タイトルを検索" autocomplete="off">
-      <div id="count" class="count">444作品</div>
-    </div>
+<div class="toolbar">
+  <input id="q" class="search" type="search" placeholder="作品タイトルを検索" autocomplete="off">
+</div>
+
+<div class="archive-meta">
+  <div id="count" class="count">444作品</div>
+
+  <div class="sort-controls" aria-label="作品の並び順">
+    <button id="sortOld" class="sort-button active" type="button">古い順</button>
+    <button id="sortNew" class="sort-button" type="button">新しい順</button>
+  </div>
+</div>
 
     <table>
       <thead>
@@ -2208,15 +2258,68 @@ footer {
 <script>
 const q = document.getElementById('q');
 const rows = [...document.querySelectorAll('#tbody tr')];
-// 作品一覧から開いたことを記事側に伝える
-rows.forEach(tr => {
-  const link = tr.querySelector('.title a');
-  if (!link) return;
+const sortOld = document.getElementById('sortOld');
+const sortNew = document.getElementById('sortNew');
 
-  const url = new URL(link.getAttribute('href'), location.href);
-  url.searchParams.set('from', 'archive');
-  link.href = url.href;
+let currentSort = 'old';
+
+// 現在の一覧順を基準として記録
+rows.forEach((tr, index) => {
+  tr.dataset.originalIndex = index;
 });
+
+function sortWorks(order) {
+  currentSort = order;
+
+  const sortedRows = [...rows].sort((a, b) => {
+    const aIndex = Number(a.dataset.originalIndex);
+    const bIndex = Number(b.dataset.originalIndex);
+
+    return order === 'old'
+      ? aIndex - bIndex
+      : bIndex - aIndex;
+  });
+
+  const tbody = document.getElementById('tbody');
+
+  sortedRows.forEach(tr => {
+    tbody.appendChild(tr);
+  });
+
+  sortOld.classList.toggle('active', order === 'old');
+  sortNew.classList.toggle('active', order === 'new');
+
+  updateArchiveLinks();
+}
+
+sortOld.addEventListener('click', () => {
+  sortWorks('old');
+});
+
+sortNew.addEventListener('click', () => {
+  sortWorks('new');
+});
+// 作品一覧から開いたことを記事側に伝える
+function updateArchiveLinks() {
+  rows.forEach(tr => {
+    const link = tr.querySelector('.title a');
+    if (!link) return;
+
+    const originalHref =
+      link.dataset.originalHref || link.getAttribute('href');
+
+    link.dataset.originalHref = originalHref;
+
+    const url = new URL(originalHref, location.href);
+
+    url.searchParams.set('from', 'archive');
+    url.searchParams.set('sort', currentSort);
+
+    link.href = url.href;
+  });
+}
+
+updateArchiveLinks();
 const count = document.getElementById('count');
 const empty = document.getElementById('empty');
 

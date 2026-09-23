@@ -82,6 +82,11 @@
       const links = [
         ...doc.querySelectorAll('#tbody .title a')
       ];
+const sort = params.get('sort') || 'old';
+
+if (sort === 'new') {
+  links.reverse();
+}
 
       const normalizePath = path => {
         try {
