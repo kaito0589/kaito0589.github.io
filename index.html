@@ -359,11 +359,11 @@ footer {
 
 .thumb-cell {
   width: 110px;
+  height: 78px;
   padding: 10px 8px;
   vertical-align: middle;
   text-align: right;
 }
-
 .thumb-cell a {
   display: block;
 }
@@ -384,6 +384,7 @@ footer {
   }
 
   .thumb-cell {
+    height: 60px;
     padding: 8px 4px;
   }
 
@@ -392,8 +393,7 @@ footer {
     height: 44px;
     border-radius: 5px;
   }
-}
-</style>
+}</style>
 </head>
 <body>
 <main>
@@ -2341,6 +2341,14 @@ sortWorks(currentSort, false);
 const focusPath = pageParams.get('focus');
 
 if (focusPath) {
+  const normalizePath = path => {
+    try {
+      return decodeURIComponent(path);
+    } catch {
+      return path;
+    }
+  };
+
   const targetRow = rows.find(tr => {
     const link = tr.querySelector('.title a');
 
@@ -2352,7 +2360,7 @@ if (focusPath) {
 
     const url = new URL(href, location.href);
 
-    return url.pathname === focusPath;
+    return normalizePath(url.pathname) === normalizePath(focusPath);
   });
 
   if (targetRow) {
@@ -2361,7 +2369,7 @@ if (focusPath) {
         behavior: 'auto',
         block: 'center'
       });
-    }, 300);
+    }, 150);
   }
 }
 // 作品一覧から開いたことを記事側に伝える
