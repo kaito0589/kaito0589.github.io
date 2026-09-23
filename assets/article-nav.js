@@ -24,7 +24,24 @@
 
   // 作品一覧から開いた場合だけ前後ナビを表示
   if (from !== 'archive') return;
+const sort = params.get('sort') || 'old';
 
+const returnUrl = new URL(
+  '../../index.html',
+  location.href
+);
+
+returnUrl.searchParams.set('sort', sort);
+returnUrl.searchParams.set('focus', location.pathname);
+returnUrl.hash = 'archive';
+
+// 上と下の「←季節の跡先」を現在の記事位置へ戻るリンクにする
+document
+  .querySelectorAll('.archive-nav a, .footer a')
+  .forEach(link => {
+    link.href = returnUrl.href;
+    link.removeAttribute('onclick');
+  });
   if (!footer) return;
 
   // 前後リンク用の見た目

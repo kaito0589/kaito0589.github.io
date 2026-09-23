@@ -2261,14 +2261,38 @@ const rows = [...document.querySelectorAll('#tbody tr')];
 const sortOld = document.getElementById('sortOld');
 const sortNew = document.getElementById('sortNew');
 
-let currentSort = 'old';
+const pageParams = new URLSearchParams(location.search);
 
-// 現在の一覧順を基準として記録
+let currentSort =
+  pageParams.get('sort') === 'new' ? 'new' : 'old';
+
+// 元々の作品順を保存
 rows.forEach((tr, index) => {
   tr.dataset.originalIndex = index;
 });
 
-function sortWorks(order) {
+function updateArchiveLinks() {
+  rows.forEach(tr => {
+    const link = tr.querySelector('.title a');
+    if (!link) return;
+
+    if (!link.dataset.originalHref) {
+      link.dataset.originalHref = link.getAttribute('href');
+    }
+
+    const url = new URL(
+      link.dataset.originalHref,
+      location.href
+    );
+
+    url.searchParams.set('from', 'archive');
+    url.searchParams.set('sort', currentSort);
+
+    link.href = url.href;
+  });
+}
+
+function sortWorks(order, updateUrl = true) {
   currentSort = order;
 
   const sortedRows = [...rows].sort((a, b) => {
@@ -2290,6 +2314,15 @@ function sortWorks(order) {
   sortNew.classList.toggle('active', order === 'new');
 
   updateArchiveLinks();
+
+  if (updateUrl) {
+    const url = new URL(location.href);
+
+    url.searchParams.set('sort', order);
+    url.searchParams.delete('focus');
+
+    history.replaceState(null, '', url);
+  }
 }
 
 sortOld.addEventListener('click', () => {
@@ -2299,6 +2332,38 @@ sortOld.addEventListener('click', () => {
 sortNew.addEventListener('click', () => {
   sortWorks('new');
 });
+
+// URLに保存されていた並び順を復元
+sortWorks(currentSort, false);
+
+// 記事ページから戻ってきたとき、
+// 直前の記事の位置へスクロール
+const focusPath = pageParams.get('focus');
+
+if (focusPath) {
+  const targetRow = rows.find(tr => {
+    const link = tr.querySelector('.title a');
+
+    if (!link) return false;
+
+    const href =
+      link.dataset.originalHref ||
+      link.getAttribute('href');
+
+    const url = new URL(href, location.href);
+
+    return url.pathname === focusPath;
+  });
+
+  if (targetRow) {
+    setTimeout(() => {
+      targetRow.scrollIntoView({
+        behavior: 'auto',
+        block: 'center'
+      });
+    }, 300);
+  }
+}
 // 作品一覧から開いたことを記事側に伝える
 function updateArchiveLinks() {
   rows.forEach(tr => {
