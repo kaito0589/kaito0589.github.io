@@ -1,3 +1,6 @@
+const analyticsScript = document.createElement('script');
+analyticsScript.src = '../../assets/analytics.js';
+document.head.appendChild(analyticsScript);
 (() => {
   const params = new URLSearchParams(location.search);
   const from = params.get('from');
