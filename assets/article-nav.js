@@ -123,7 +123,8 @@ if (sort === 'new') {
       if (previous) {
         const previousLink = document.createElement('a');
         const previousUrl = new URL(previous.url);
-        previousUrl.searchParams.set('from', 'archive');
+previousUrl.searchParams.set('from', 'archive');
+previousUrl.searchParams.set('sort', sort);
 
         previousLink.href = previousUrl.href;
         previousLink.textContent = '←前の作品';
@@ -143,7 +144,8 @@ if (sort === 'new') {
       if (next) {
         const nextLink = document.createElement('a');
         const nextUrl = new URL(next.url);
-        nextUrl.searchParams.set('from', 'archive');
+nextUrl.searchParams.set('from', 'archive');
+nextUrl.searchParams.set('sort', sort);
 
         nextLink.href = nextUrl.href;
         nextLink.textContent = '次の作品→';
