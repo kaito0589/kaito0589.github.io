@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>季節の跡先 | 大月海人</title>
-<meta name="description" content="大月海人の作品アーカイブ。2017年から2026年までに公開した444作品を収録。">
+<meta name="description" content="大月海人の作品アーカイブ。">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2203,6 +2203,15 @@ footer {
 <script>
 const q = document.getElementById('q');
 const rows = [...document.querySelectorAll('#tbody tr')];
+// 作品一覧から開いたことを記事側に伝える
+rows.forEach(tr => {
+  const link = tr.querySelector('.title a');
+  if (!link) return;
+
+  const url = new URL(link.getAttribute('href'), location.href);
+  url.searchParams.set('from', 'archive');
+  link.href = url.href;
+});
 const count = document.getElementById('count');
 const empty = document.getElementById('empty');
 
