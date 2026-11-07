@@ -459,8 +459,8 @@ footer {
   <div id="count" class="count">444作品</div>
 
   <div class="sort-controls" aria-label="作品の並び順">
-    <button id="sortOld" class="sort-button active" type="button">古い順</button>
-    <button id="sortNew" class="sort-button" type="button">新しい順</button>
+    <button id="sortOld" class="sort-button" type="button">古い順</button>
+    <button id="sortNew" class="sort-button active" type="button">新しい順</button>
   </div>
 </div>
 
@@ -2267,8 +2267,11 @@ const sortNew = document.getElementById('sortNew');
 
 const pageParams = new URLSearchParams(location.search);
 
+// 並び順の初期値は「新しい順」。
+// URLに ?sort=old があるときだけ「古い順」で表示する。
+// （一覧のHTMLは古い順に並べてあり、新しい記事は末尾に追加していく）
 let currentSort =
-  pageParams.get('sort') === 'new' ? 'new' : 'old';
+  pageParams.get('sort') === 'old' ? 'old' : 'new';
 
 // 元々の作品順を保存
 rows.forEach((tr, index) => {

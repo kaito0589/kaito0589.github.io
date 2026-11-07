@@ -27,7 +27,8 @@ document.head.appendChild(analyticsScript);
 
   // 作品一覧から開いた場合だけ前後ナビを表示
   if (from !== 'archive') return;
-const sort = params.get('sort') || 'old';
+// 並び順の初期値は一覧と同じ「新しい順」
+const sort = params.get('sort') === 'old' ? 'old' : 'new';
 
 const returnUrl = new URL(
   '../../index.html',
@@ -102,7 +103,7 @@ document
       const links = [
         ...doc.querySelectorAll('#tbody .title a')
       ];
-const sort = params.get('sort') || 'old';
+const sort = params.get('sort') === 'old' ? 'old' : 'new';
 
 if (sort === 'new') {
   links.reverse();
