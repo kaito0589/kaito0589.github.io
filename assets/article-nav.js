@@ -4,6 +4,8 @@ document.head.appendChild(analyticsScript);
 (() => {
   const params = new URLSearchParams(location.search);
   const from = params.get('from');
+  const yearParam = params.get('year');
+  const year = /^\d{4}$/.test(yearParam || '') ? yearParam : null;
 
   const footer = document.querySelector('.footer');
   const footerLink = footer ? footer.querySelector('a') : null;
@@ -36,6 +38,7 @@ const returnUrl = new URL(
 );
 
 returnUrl.searchParams.set('sort', sort);
+if (year) returnUrl.searchParams.set('year', year);
 returnUrl.searchParams.set('focus', location.pathname);
 returnUrl.hash = 'archive';
 
@@ -100,9 +103,10 @@ document
     .then(html => {
       const doc = new DOMParser().parseFromString(html, 'text/html');
 
-      const links = [
-        ...doc.querySelectorAll('#tbody .title a')
-      ];
+      const links = [...doc.querySelectorAll('#tbody tr')]
+        .filter(tr => !year || tr.querySelector('.date')?.textContent.trim().startsWith(`${year}-`))
+        .map(tr => tr.querySelector('.title a'))
+        .filter(Boolean);
 const sort = params.get('sort') === 'old' ? 'old' : 'new';
 
 if (sort === 'new') {
@@ -146,6 +150,7 @@ if (sort === 'new') {
         const previousUrl = new URL(previous.url);
 previousUrl.searchParams.set('from', 'archive');
 previousUrl.searchParams.set('sort', sort);
+if (year) previousUrl.searchParams.set('year', year);
 
         previousLink.href = previousUrl.href;
         previousLink.textContent = '←前の作品';
@@ -167,6 +172,7 @@ previousUrl.searchParams.set('sort', sort);
         const nextUrl = new URL(next.url);
 nextUrl.searchParams.set('from', 'archive');
 nextUrl.searchParams.set('sort', sort);
+if (year) nextUrl.searchParams.set('year', year);
 
         nextLink.href = nextUrl.href;
         nextLink.textContent = '次の作品→';

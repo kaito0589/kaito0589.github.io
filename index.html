@@ -193,6 +193,29 @@ h1 {
   margin: 0 4px 24px;
 }
 
+.archive-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.year-select {
+  max-width: 172px;
+  padding: 6px 9px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--text);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.year-select:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 2px;
+}
+
 .sort-controls {
   display: flex;
   align-items: center;
@@ -279,7 +302,21 @@ footer {
   }
 
   .archive-meta {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
     margin-bottom: 18px;
+  }
+
+  .archive-controls {
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .year-select {
+    max-width: 166px;
+    font-size: 12px;
   }
 
   .sort-button {
@@ -456,11 +493,17 @@ footer {
 </div>
 
 <div class="archive-meta">
-  <div id="count" class="count">444作品</div>
+  <div id="count" class="count" aria-live="polite">445作品</div>
 
-  <div class="sort-controls" aria-label="作品の並び順">
-    <button id="sortOld" class="sort-button" type="button">古い順</button>
-    <button id="sortNew" class="sort-button active" type="button">新しい順</button>
+  <div class="archive-controls">
+    <select id="yearFilter" class="year-select" aria-label="公開年で絞り込む">
+      <option value="all">すべての年</option>
+    </select>
+
+    <div class="sort-controls" aria-label="作品の並び順">
+      <button id="sortOld" class="sort-button" type="button">古い順</button>
+      <button id="sortNew" class="sort-button active" type="button">新しい順</button>
+    </div>
   </div>
 </div>
 
@@ -2264,8 +2307,32 @@ const q = document.getElementById('q');
 const rows = [...document.querySelectorAll('#tbody tr')];
 const sortOld = document.getElementById('sortOld');
 const sortNew = document.getElementById('sortNew');
-
+const yearFilter = document.getElementById('yearFilter');
 const pageParams = new URLSearchParams(location.search);
+
+// 公開日から選択可能な年を自動生成する（新しい作品にも対応）。
+const yearCounts = new Map();
+rows.forEach(tr => {
+  const dateText = tr.querySelector('.date')?.textContent.trim() || '';
+  const year = /^\d{4}-\d{2}-\d{2}$/.test(dateText)
+    ? dateText.slice(0, 4)
+    : '';
+
+  tr.dataset.year = year;
+  if (year) yearCounts.set(year, (yearCounts.get(year) || 0) + 1);
+});
+
+[...yearCounts.keys()].sort((a, b) => b.localeCompare(a)).forEach(year => {
+  const option = document.createElement('option');
+  option.value = year;
+  option.textContent = `${year}年（${yearCounts.get(year)}作品）`;
+  yearFilter.appendChild(option);
+});
+
+let currentYear = yearCounts.has(pageParams.get('year'))
+  ? pageParams.get('year')
+  : 'all';
+yearFilter.value = currentYear;
 
 // 並び順の初期値は「新しい順」。
 // URLに ?sort=old があるときだけ「古い順」で表示する。
@@ -2277,27 +2344,6 @@ let currentSort =
 rows.forEach((tr, index) => {
   tr.dataset.originalIndex = index;
 });
-
-function updateArchiveLinks() {
-  rows.forEach(tr => {
-    const link = tr.querySelector('.title a');
-    if (!link) return;
-
-    if (!link.dataset.originalHref) {
-      link.dataset.originalHref = link.getAttribute('href');
-    }
-
-    const url = new URL(
-      link.dataset.originalHref,
-      location.href
-    );
-
-    url.searchParams.set('from', 'archive');
-    url.searchParams.set('sort', currentSort);
-
-    link.href = url.href;
-  });
-}
 
 function sortWorks(order, updateUrl = true) {
   currentSort = order;
@@ -2394,6 +2440,11 @@ function updateArchiveLinks() {
 
     url.searchParams.set('from', 'archive');
     url.searchParams.set('sort', currentSort);
+    if (currentYear === 'all') {
+      url.searchParams.delete('year');
+    } else {
+      url.searchParams.set('year', currentYear);
+    }
 
     link.href = url.href;
   });
@@ -2403,24 +2454,45 @@ updateArchiveLinks();
 const count = document.getElementById('count');
 const empty = document.getElementById('empty');
 
-count.textContent = `${rows.length}作品`;
-
 function filterRows() {
   const term = q.value.trim().toLowerCase();
   let visible = 0;
 
   rows.forEach(tr => {
     const title = tr.dataset.title.toLowerCase();
-    const show = title.includes(term);
+    const matchesTitle = title.includes(term);
+    const matchesYear = currentYear === 'all' || tr.dataset.year === currentYear;
+    const show = matchesTitle && matchesYear;
+
     tr.style.display = show ? '' : 'none';
     if (show) visible++;
   });
 
-  count.textContent = `${visible}作品`;
+  count.textContent = currentYear === 'all'
+    ? `${visible}作品`
+    : `${currentYear}年の${visible}作品`;
   empty.style.display = visible === 0 ? 'block' : 'none';
 }
 
+yearFilter.addEventListener('change', () => {
+  currentYear = yearFilter.value;
+  const url = new URL(location.href);
+
+  if (currentYear === 'all') {
+    url.searchParams.delete('year');
+  } else {
+    url.searchParams.set('year', currentYear);
+  }
+  url.searchParams.delete('focus');
+  url.hash = 'archive';
+  history.replaceState(null, '', url);
+
+  updateArchiveLinks();
+  filterRows();
+});
+
 q.addEventListener('input', filterRows);
+filterRows();
 // data-thumb のない行（今後追加した記事など）だけ、
 // 記事ページを読み込んで最初の画像を一覧右側に表示
 const thumbnailObserver = new IntersectionObserver(entries => {
